@@ -1,0 +1,63 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodels="clr-namespace:CurrencyConverter.ViewModels"
+             xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             x:Class="CurrencyConverter.MainPage"
+             Title="Конвертер валют">
+
+    <Grid RowDefinitions="Auto,Auto,*">
+        <!-- Блок даты -->
+        <Grid Grid.Row="0" Padding="10">
+            <DatePicker 
+                Date="{Binding SelectedDate}"
+                MaximumDate="{Binding Source={x:Static sys:DateTime.Today}}"
+                HorizontalOptions="End"/>
+        </Grid>
+
+        <!-- Информация о курсе -->
+        <Label 
+            Grid.Row="1" 
+            Text="{Binding SelectedDate, StringFormat='Курс на {0:dd MMMM yyyy}'}"
+            HorizontalOptions="End"
+            Margin="0,0,10,10"/>
+
+        <!-- Блок конвертации -->
+        <Grid Grid.Row="2" Padding="20" ColumnDefinitions="*,*">
+            <!-- Левый столбец - выбор валют -->
+            <Grid Grid.Column="0">
+                <VerticalStackLayout Spacing="10">
+                    <Picker 
+                        Title="Исходная валюта"
+                        ItemsSource="{Binding Currencies}"
+                        SelectedItem="{Binding FromCurrency}"
+                        ItemDisplayBinding="{Binding CharCode}"/>
+
+                    <Picker 
+                        Title="Целевая валюта"
+                        ItemsSource="{Binding Currencies}"
+                        SelectedItem="{Binding ToCurrency}"
+                        ItemDisplayBinding="{Binding CharCode}"/>
+                </VerticalStackLayout>
+            </Grid>
+
+            <!-- Правый столбец - ввод-вывод -->
+            <Grid Grid.Column="1">
+                <VerticalStackLayout Spacing="25">
+                    <Entry 
+                        Placeholder="Введите сумму"
+                        Keyboard="Numeric"
+                        Text="{Binding FromAmount, StringFormat='{0:N2}'}"
+                        />
+
+                    <Entry 
+                        Placeholder="Результат"
+                        Keyboard="Numeric"
+                        Text="{Binding ToAmount, StringFormat='{0:N2}'}"
+                        />
+                </VerticalStackLayout>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</ContentPage>
